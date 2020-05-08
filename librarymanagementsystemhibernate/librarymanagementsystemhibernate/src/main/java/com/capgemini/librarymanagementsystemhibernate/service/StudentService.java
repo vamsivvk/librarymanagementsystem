@@ -6,7 +6,6 @@ import com.capgemini.librarymanagementsystemhibernate.dto.BookBean;
 public interface StudentService {
 	public BookBean searchBookTitle(String name); 
 	public BookBean searchBookAuthor(String Author);
-	
 	public List<Integer> getBookIds();
 	public List<BookBean> getBooksInfo();
 	boolean req(int id, int book_id);

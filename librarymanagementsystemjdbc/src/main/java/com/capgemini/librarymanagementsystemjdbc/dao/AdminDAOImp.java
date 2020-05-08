@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 import com.capgemini.librarymanagementsystemjdbc.dto.BookBean;
+import com.capgemini.librarymanagementsystemjdbc.exception.LMSException;
 
 
 public class AdminDAOImp implements AdminDAO{
@@ -42,8 +43,7 @@ public class AdminDAOImp implements AdminDAO{
 			}
 		}}
 		catch (Exception e) {
-			e.printStackTrace();
-		
+			throw new LMSException("Cannot update the book");
 		}
 		return count;
 	}
@@ -70,12 +70,8 @@ public class AdminDAOImp implements AdminDAO{
 			}
 		}}
 		catch (Exception e) {
-			e.printStackTrace();
-		//	System.out.println("invalid credentials");
+			throw new LMSException("Cannot delete the book");
 		}
-		
-		
-		
 		return count;
 	}
 
@@ -105,14 +101,9 @@ public class AdminDAOImp implements AdminDAO{
 			}
 			}}
 		catch (Exception e) {
-			e.printStackTrace();
-		//	System.out.println("invalid credentials");
+			throw new LMSException("Cannot add the book or book already exist");
 		}
-		return count;
-		
-		
-		
-		
+		return count;	
 	}
 
 	@Override
@@ -137,16 +128,12 @@ public class AdminDAOImp implements AdminDAO{
 							System.out.println(bean.getId());
 					}	  }}
 		  } } catch (Exception e) {
-			e.printStackTrace();
+			  throw new LMSException("Cannot get book Id's");
 		}
 		
 		return null;
-		 
-		 
-		
-		
-
 	}
+	
 
 	@Override
 	public List<BookBean> getBooksInfo() {
@@ -175,12 +162,10 @@ public class AdminDAOImp implements AdminDAO{
 			}
 
 		}catch(Exception e) {
-			e.printStackTrace();
-			return null;
+			throw new LMSException("No books found");
 		}
-		
-
 	}
+	
 	@Override
 	public boolean issueBook(int bId, String email) {
 		System.out.println(bId);
@@ -209,16 +194,15 @@ public class AdminDAOImp implements AdminDAO{
 					if(count!=0) {
 						return true;
 					}else {
-						return false;
+						System.out.println("you have crossed limit");
 					}
 				}
 			}
 
 		}catch(Exception e) {
-			e.printStackTrace();
+			throw new LMSException("cannot issue book");
 		}
-		return false;
-		 
+		return false;	 
 	}
 	@Override
 	public BookBean searchBookTitle(String name) {
@@ -248,12 +232,10 @@ public class AdminDAOImp implements AdminDAO{
 			}
 
 		}catch(Exception e) {
-			e.printStackTrace();
+			throw new LMSException("No book found with this name");
 		}
 		return null;
-	
-
-					}
+	}
 	
 	
 	
@@ -285,7 +267,7 @@ public class AdminDAOImp implements AdminDAO{
 			}
 
 		}catch(Exception e) {
-			e.printStackTrace();
+			throw new LMSException("Book not found with this Author");
 		}
 		return null;
 		
@@ -320,12 +302,8 @@ public class AdminDAOImp implements AdminDAO{
 			}
 
 		}catch(Exception e) {
-			e.printStackTrace();
+			throw new LMSException("Book not found with this id");
 		}
 		return null;
-		
-
 	}
-	
-
 }

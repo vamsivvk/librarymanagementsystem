@@ -8,7 +8,6 @@ import com.capgemini.librarymanagementsystemjdbc.dto.BookBean;
 public interface StudentDAO {
 	public BookBean searchBookTitle(String name); 
 	public BookBean searchBookAuthor(String Author);
-	
 	public LinkedList<Integer> getBookIds();
 	public List<BookBean> getBooksInfo();
 	boolean returnBook(int id);

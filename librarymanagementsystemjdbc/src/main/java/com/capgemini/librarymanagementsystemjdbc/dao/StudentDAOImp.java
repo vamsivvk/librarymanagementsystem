@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
 import com.capgemini.librarymanagementsystemjdbc.dto.BookBean;
+import com.capgemini.librarymanagementsystemjdbc.exception.LMSException;
 
 public class StudentDAOImp implements StudentDAO{
 	Scanner scan = new Scanner(System.in);
@@ -43,7 +44,7 @@ public class StudentDAOImp implements StudentDAO{
 				}
 
 			}catch(Exception e) {
-				e.printStackTrace();
+				throw new LMSException("Book is not present with this name");
 			}
 			return null;
 	}
@@ -76,7 +77,7 @@ public class StudentDAOImp implements StudentDAO{
 			}
 
 		}catch(Exception e) {
-			e.printStackTrace();
+			throw new LMSException("Book not found with this Author");
 		}
 		return null;
 	}
@@ -109,15 +110,11 @@ public class StudentDAOImp implements StudentDAO{
 			}
 
 		}catch(Exception e) {
-			e.printStackTrace();
+			throw new LMSException("Book not found with this Author");
 		}
 		return null;
-		
-
 	}
 	
-	
-
 	@Override
 	public LinkedList<Integer> getBookIds() {
 		try {
@@ -140,7 +137,7 @@ public class StudentDAOImp implements StudentDAO{
 								System.out.println(bean.getId());
 						}	  }}
 			  } } catch (Exception e) {
-				e.printStackTrace();
+				  throw new LMSException("No book id found");
 			}
 			
 			return null;
@@ -174,8 +171,7 @@ public class StudentDAOImp implements StudentDAO{
 			}
 
 		}catch(Exception e) {
-			e.printStackTrace();
-			return null;
+			throw new LMSException("No books in library");
 		}
 	}
 
@@ -209,9 +205,8 @@ public class StudentDAOImp implements StudentDAO{
 			}
 
 		}catch(Exception e) {
-			e.printStackTrace();
+			throw new LMSException("Cannot request book");
 		}
-		return false;
 	}
 
 	@Override
@@ -235,14 +230,14 @@ public class StudentDAOImp implements StudentDAO{
 					return true;
 				}else {
 					System.out.println("book not returned");	
-					return false;
 				}
 		}
 	}		
 }catch(Exception e) {
-	e.printStackTrace();
-	return false;
+	throw new LMSException("Cannot place the request for the book");
+	
 }
+		return false;
 	}
 			}
 
