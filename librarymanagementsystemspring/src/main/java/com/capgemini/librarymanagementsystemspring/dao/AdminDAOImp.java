@@ -15,93 +15,71 @@ import org.springframework.stereotype.Repository;
 
 import com.capgemini.librarymanagementsystemspring.dto.BookBean;
 import com.capgemini.librarymanagementsystemspring.dto.BookIssueDetailsBean;
+import com.capgemini.librarymanagementsystemspring.exceptions.LMSException;
 @Repository
 public class AdminDAOImp implements AdminDAO{
+	EntityManager manager=null;
+	EntityTransaction transaction=null;
+	int noOfBooks;
+	
 @PersistenceUnit
-EntityManagerFactory factory;
+private EntityManagerFactory factory;
+	
+	
 	@Override
 	public boolean update(BookBean book) {
-		EntityManagerFactory factory=null;
-		EntityManager manager=null;
-		EntityTransaction transaction=null;
-		boolean isUpdated = false;
-		try {
-			 factory=Persistence.createEntityManagerFactory("TestPersistence");
-			 manager=factory.createEntityManager();
-			transaction=manager.getTransaction();
+		try{
+			factory = Persistence.createEntityManagerFactory("TestPersistence");
+			manager = factory.createEntityManager();
+			transaction = manager.getTransaction();
 			transaction.begin();
-			manager.merge(book);
+			BookBean record = manager.find(BookBean.class, book.getBid());
+			record.setBook_title(book.getBook_title());
 			transaction.commit();
-			isUpdated = true;
-		} catch (Exception e) {
-			e.printStackTrace();
+			return true;
+		}catch (Exception e) {
+			System.err.println(e.getMessage());
+			return false;
 		}
-		return isUpdated;
 	}
 
 	@Override
 	public boolean delete(int bId) {
-		EntityManagerFactory factory = null;
-		EntityManager manager = null;
-		EntityTransaction transaction = null;
-		boolean del = false;
 		try {
 			factory = Persistence.createEntityManagerFactory("TestPersistence");
 			manager = factory.createEntityManager();
 			transaction = manager.getTransaction();
 			transaction.begin();
 			BookBean record = manager.find(BookBean.class, bId);
-			if(manager.contains(record)) {
-				del = true;
 			manager.remove(record);
-			System.out.println("Record removed");
-			}else {
-				del = false;
-				System.out.println("record not found");
-			}
-			
 			transaction.commit();
+			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
-			transaction.rollback();
+			System.err.println(e.getMessage());
+			return false;
 		}
-		manager.close();
-		factory.close();
-		//return true;
-		return del;
+	
 	}
+
 
 	@Override
 	public boolean addBook(BookBean info) {
-		EntityManagerFactory factory = null;
-		EntityManager manager = null;
-		EntityTransaction transaction = null;
-
-		
-		boolean isBookAdded = false;
-		try {
-			factory = Persistence.createEntityManagerFactory("TestPersistence");
-			manager = factory.createEntityManager();
-			transaction = manager.getTransaction();
-			transaction.begin();
-			manager.merge(info);
-			isBookAdded = true;
-			transaction.commit();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			transaction.rollback();
+		BookBean res = null;
+			try {
+				manager = factory.createEntityManager();
+				transaction = manager.getTransaction();
+				transaction.begin();
+				manager.persist(info);
+				transaction.commit();
+				return true;
+			}catch (Exception e) {
+				System.err.println(e.getMessage());
+				return false;
+			}
 		}
-		manager.close();
-		factory.close();
-		return isBookAdded;
-	}
 
 	@Override
 	public List<Integer> getBookIds() {
-		EntityManagerFactory factory = null;
-		EntityManager manager = null;
-		EntityTransaction transaction = null;
 		List<Integer> bookBeans = null;
 		try {
 			factory = Persistence.createEntityManagerFactory("TestPersistence");
@@ -119,16 +97,11 @@ EntityManagerFactory factory;
 		}
 		manager.close();
 		factory.close();
-			
-		
 		return bookBeans;
 	}
 
 	@Override
 	public List<BookBean> getBooksInfo() {
-		EntityManagerFactory factory = null;
-		EntityManager manager = null;
-		EntityTransaction transaction = null;
 		List<BookBean> bookBeans = null;
 		try {
 			factory = Persistence.createEntityManagerFactory("TestPersistence");
@@ -153,9 +126,6 @@ EntityManagerFactory factory;
 
 	@Override
 	public boolean issueBook(int id , int book_id) {
-		EntityManagerFactory factory = null;
-		EntityManager manager = null;
-		EntityTransaction transaction = null;
 		BookIssueDetailsBean b = new BookIssueDetailsBean();
 		try {
 			factory = Persistence.createEntityManagerFactory("TestPersistence");
@@ -239,9 +209,6 @@ EntityManagerFactory factory;
 
 	@Override
 	public BookBean searchBookTitle(String name) {
-		EntityManagerFactory factory = null;
-		EntityManager manager = null;
-		EntityTransaction transaction = null;
 		BookBean res = null;
 		try {
 			factory = Persistence.createEntityManagerFactory("TestPersistence");
@@ -267,9 +234,6 @@ EntityManagerFactory factory;
 
 	@Override
 	public BookBean searchBookAuthor(String Author) {
-		EntityManagerFactory factory = null;
-		EntityManager manager = null;
-		EntityTransaction transaction = null;
 		BookBean res = null;
 		try {
 			factory = Persistence.createEntityManagerFactory("TestPersistence");
@@ -295,9 +259,6 @@ EntityManagerFactory factory;
 
 	@Override
 	public BookBean searchBookType(int bookType) {
-		EntityManagerFactory factory = null;
-		EntityManager manager = null;
-		EntityTransaction transaction = null;
 		BookBean record = null;
 		try {
 			factory = Persistence.createEntityManagerFactory("TestPersistence");
@@ -318,9 +279,6 @@ EntityManagerFactory factory;
 
 	@Override
 	public boolean returnBook(int id, int book_id) {
-		EntityManagerFactory factory = null;
-		EntityManager manager = null;
-		EntityTransaction transaction = null;
 		BookBean res = null;
 		try {
 			factory = Persistence.createEntityManagerFactory("TestPersistence");

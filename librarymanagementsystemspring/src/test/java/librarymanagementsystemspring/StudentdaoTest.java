@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.capgemini.librarymanagementsystemspring.dao.StudentDAO;
 import com.capgemini.librarymanagementsystemspring.dao.StudentDAOImp;
@@ -11,7 +12,9 @@ import com.capgemini.librarymanagementsystemspring.dto.BookBean;
 import com.capgemini.librarymanagementsystemspring.dto.UserBean;
 
 public class StudentdaoTest {
-private StudentDAO dao = new StudentDAOImp();
+
+	@Autowired
+	private StudentDAO dao;
 	
 	@Test
 	public void testSearchBookByAuthor() {
@@ -109,7 +112,7 @@ private StudentDAO dao = new StudentDAOImp();
 		UserBean student = null;
 		@SuppressWarnings("unused")
 		BookBean book = null;
-		boolean status = dao.reqReturnBook(10,234567);
+		boolean status = dao.reqReturnBook(10,2345);
 		Assertions.assertTrue(status);	
 		}
 	@Test

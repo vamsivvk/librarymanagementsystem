@@ -5,15 +5,17 @@ import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.capgemini.librarymanagementsystemspring.dao.AdminDAO;
 import com.capgemini.librarymanagementsystemspring.dao.AdminDAOImp;
 import com.capgemini.librarymanagementsystemspring.dto.BookBean;
 import com.capgemini.librarymanagementsystemspring.dto.UserBean;
 
 public class AdmindaoTest {
-	@SuppressWarnings("unused")
-	private BookBean bean = new BookBean();
-	private AdminDAOImp dao = new AdminDAOImp();
+	@Autowired
+	
+	private AdminDAO dao;
 	@Test
 	public void testAddBook() {
 		BookBean bean = new BookBean();
@@ -53,7 +55,7 @@ public class AdmindaoTest {
 	@Test
 	public void testUpdateBook() {
 		BookBean bean = new BookBean();
-		bean.setBid(123456);
+		bean.setBid(28);
 		bean.setBook_title("powerofyouth");
 		boolean status = dao.update(bean);
 		Assertions.assertEquals(1,status);
@@ -70,18 +72,14 @@ public class AdmindaoTest {
 	
 	@Test
 	public void testDeleteBook() {
-		@SuppressWarnings("unused")
-		BookBean bean = new BookBean();
-		boolean status = dao.delete(234567);
-		Assertions.assertEquals(1, status);
+		boolean status = dao.delete(28);
+		Assertions.assertTrue (status);
 	}
 	
 	@Test
 	public void testDeleteBook1() {
-		@SuppressWarnings("unused")
-		BookBean bean = new BookBean();
 		boolean status = dao.delete(345678);
-		Assertions.assertEquals(1, status);
+		Assertions.assertTrue(status);
 		
 	}
 
@@ -136,7 +134,7 @@ public class AdmindaoTest {
 		BookBean bean = new BookBean();
 		bean.setBid(345678);
 		boolean status = dao.issueBook(11,345678);
-		Assertions.assertTrue(status);
+		Assertions.assertFalse(status);
 		
 	}
 	
@@ -168,10 +166,10 @@ public class AdmindaoTest {
 	@Test
 	public void testReturnBook() {
 		BookBean bean = new BookBean();
-		bean.setBid(234567);
+		bean.setBid(28);
 		UserBean bean1 = new UserBean();
 		bean1.setId(10);
-		boolean status = dao.returnBook(10, 234567);
+		boolean status = dao.returnBook(10, 28);
 		Assertions.assertEquals(1, status);
 		
 	}

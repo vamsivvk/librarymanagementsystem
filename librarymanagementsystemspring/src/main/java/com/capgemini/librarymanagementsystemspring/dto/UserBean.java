@@ -3,6 +3,7 @@ package com.capgemini.librarymanagementsystemspring.dto;
 import java.util.List;
 
 
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -109,9 +110,5 @@ public class UserBean {
 	 
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="primary")
 	private List<BorrowedBookBean> borrowBook;
-	
-	
-	
-	
-	
+		
 }

@@ -38,9 +38,10 @@ public  lmsResponse addUser(@RequestBody UserBean bean) {
 	return response;
 }
 
-@PostMapping(path = "/login")
-public lmsResponse authentication(@RequestBody String email , String password) {
-	UserBean userLogin = service.auth(email, password);
+@PostMapping(path = "/login",consumes= {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE},
+							produces= {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
+public lmsResponse authentication(@RequestBody UserBean userbean) {
+	UserBean userLogin = service.auth(userbean.getEmail(),userbean.getPassword());
 	lmsResponse response = new lmsResponse();
 	if(userLogin != null) {
 		response.setMessage("Login successful");
@@ -54,8 +55,8 @@ public lmsResponse authentication(@RequestBody String email , String password) {
 
 @PostMapping(path = "/addBook" , consumes = {MediaType.APPLICATION_JSON_VALUE , MediaType.APPLICATION_XML_VALUE},
 								produces = {MediaType.APPLICATION_JSON_VALUE , MediaType.APPLICATION_XML_VALUE})
-public lmsResponse addBook(@RequestBody BookBean bean) {
-	boolean isBookAdded = service1.addBook(bean);
+public lmsResponse addBook(@RequestBody BookBean bookinfo) {
+	boolean isBookAdded = service1.addBook(bookinfo);
 	lmsResponse response = new lmsResponse();
 	if(isBookAdded) {
 		response.setMessage("Book added succesfully");

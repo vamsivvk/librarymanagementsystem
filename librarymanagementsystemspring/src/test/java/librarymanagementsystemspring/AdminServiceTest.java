@@ -4,16 +4,18 @@ import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.capgemini.librarymanagementsystemspring.dao.AdminDAOImp;
 import com.capgemini.librarymanagementsystemspring.dto.BookBean;
 import com.capgemini.librarymanagementsystemspring.dto.UserBean;
+import com.capgemini.librarymanagementsystemspring.service.AdminService;
 import com.capgemini.librarymanagementsystemspring.service.AdminServiceImp;
 
 public class AdminServiceTest {
-	@SuppressWarnings("unused")
-	private BookBean bean = new BookBean();
-	private AdminServiceImp dao = new AdminServiceImp();
+	@Autowired
+	private AdminService service;
+	
 	@Test
 	public void testAddBook() {
 		BookBean bean = new BookBean();
@@ -55,7 +57,7 @@ public class AdminServiceTest {
 		BookBean bean = new BookBean();
 		bean.setBid(123456);
 		bean.setBook_title("powerofyouth");
-		boolean status = dao.update(bean);
+		boolean status = service.update(bean);
 		Assertions.assertEquals(1,status);
 	}
 	
@@ -64,7 +66,7 @@ public class AdminServiceTest {
 		BookBean bean = new BookBean();
 		bean.setBid(345678);
 		bean.setBook_title("power");
-		boolean status = dao.update(bean);
+		boolean status = service.update(bean);
 		Assertions.assertEquals(1,status);
 	}
 	
@@ -72,7 +74,7 @@ public class AdminServiceTest {
 	public void testDeleteBook() {
 		@SuppressWarnings("unused")
 		BookBean bean = new BookBean();
-		boolean status = dao.delete(234567);
+		boolean status = service.delete(234567);
 		Assertions.assertEquals(1, status);
 	}
 	
@@ -80,43 +82,43 @@ public class AdminServiceTest {
 	public void testDeleteBook1() {
 		@SuppressWarnings("unused")
 		BookBean bean = new BookBean();
-		boolean status = dao.delete(345678);
+		boolean status = service.delete(345678);
 		Assertions.assertEquals(1, status);
 		
 	}
 
 	@Test
 	public void testSearchBookByAuthor() {
-		BookBean bean1 = dao.searchBookAuthor("upendra");
+		BookBean bean1 = service.searchBookAuthor("upendra");
 		Assertions.assertNotNull(bean1);
 	}
 	
 	@Test
 	public void testSearchBookByAuthor1() {
-		BookBean bean1 = dao.searchBookAuthor("uppiboss");
+		BookBean bean1 = service.searchBookAuthor("uppiboss");
 		Assertions.assertNotNull(bean1);
 	}
 	
 	@Test
 	public void testSearchBookByName() {
-		BookBean bean1 = dao.searchBookTitle("janasena");
+		BookBean bean1 = service.searchBookTitle("janasena");
 		Assertions.assertNotNull(bean1);
 	}
 	
 	@Test
 	public void testSearchBookByName1() {
-		BookBean bean1 = dao.searchBookTitle("srm");
+		BookBean bean1 = service.searchBookTitle("srm");
 		Assertions.assertNotNull(bean1);
 	}
 	@Test
 	public void testSearchBookById() {
-		BookBean bean1 = dao.searchBookType(234567);
+		BookBean bean1 = service.searchBookType(234567);
 		Assertions.assertNotNull(bean1);
 	}
 	
 	@Test
 	public void testSearchBookById1() {
-		BookBean bean1 = dao.searchBookType(345678);
+		BookBean bean1 = service.searchBookType(345678);
 		Assertions.assertNotNull(bean1);
 	}
 	@Test
@@ -125,7 +127,7 @@ public class AdminServiceTest {
 		bean1.setId(10);
 		BookBean bean = new BookBean();
 		bean.setBid(234567);
-		boolean status = dao.issueBook(10,234567);
+		boolean status = service.issueBook(10,234567);
 		Assertions.assertTrue(status);
 	}
 	
@@ -135,7 +137,7 @@ public class AdminServiceTest {
 		bean1.setId(11);
 		BookBean bean = new BookBean();
 		bean.setBid(345678);
-		boolean status = dao.issueBook(11,345678);
+		boolean status = service.issueBook(11,345678);
 		Assertions.assertTrue(status);
 		
 	}
@@ -143,25 +145,25 @@ public class AdminServiceTest {
 	
 	@Test
 	public void testGetId() {
-		List<Integer> bean1 = dao.getBookIds();
+		List<Integer> bean1 = service.getBookIds();
 		Assertions.assertNotNull(bean1);
 	}
 	
 	@Test
 	public void testGetId1() {
-		List<Integer> bean1 = dao.getBookIds();
+		List<Integer> bean1 = service.getBookIds();
 		Assertions.assertEquals(1, bean1.size());
 	}
 	
 	@Test
 	public void testGetInfo() {
-		List<BookBean> bean1 = dao.getBooksInfo();
+		List<BookBean> bean1 = service.getBooksInfo();
 		Assertions.assertNotNull(bean1);
 	}
 	
 	@Test
 	public void testGetInfo1() {
-		List<BookBean> bean1 = dao.getBooksInfo();
+		List<BookBean> bean1 = service.getBooksInfo();
 		Assertions.assertEquals(1, bean1.size());
 	}
 	
@@ -171,10 +173,8 @@ public class AdminServiceTest {
 		bean.setBid(234567);
 		UserBean bean1 = new UserBean();
 		bean1.setId(10);
-		boolean status = dao.returnBook(10, 234567);
+		boolean status = service.returnBook(10, 234567);
 		Assertions.assertEquals(1, status);
 		
 	}
-	
-
 }
